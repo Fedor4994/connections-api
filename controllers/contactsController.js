@@ -4,7 +4,7 @@ const {
   removeContact,
   addContact,
   updateContact,
-} = require("../models/contacts");
+} = require("../services/contactsService");
 
 const getContactsController = async (_, res) => {
   const contacts = await listContacts();
@@ -19,8 +19,8 @@ const getContactByIdController = async (req, res) => {
 };
 
 const deleteContactController = async (req, res) => {
-  const isDeleted = await removeContact(req.params.contactId);
-  isDeleted
+  const deletedContact = await removeContact(req.params.contactId);
+  deletedContact
     ? res.status(200).json({ message: "contact deleted" })
     : res.status(400).json({ message: "Not found" });
 };
@@ -32,6 +32,7 @@ const addContactController = async (req, res) => {
 
 const updateContactController = async (req, res, next) => {
   const newContact = await updateContact(req.params.contactId, req.body);
+  console.log(newContact);
   newContact
     ? res.status(200).json(newContact)
     : res.status(404).json({ message: "Not found" });
