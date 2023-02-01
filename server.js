@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 8081;
 
 connection
   .then(() => {
+    console.log("Database connection successful");
     app.listen(PORT, function () {
       console.log(`Server running. Use our API on port: ${PORT}`);
     });
