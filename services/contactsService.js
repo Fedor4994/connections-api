@@ -16,10 +16,11 @@ const removeContact = async (contactId) => {
 };
 
 const addContact = async (body) => {
+  const { name, email = "", phone = "" } = body;
   const contact = new Contact({
-    name: body.name,
-    email: body.email,
-    phone: body.phone,
+    name,
+    email,
+    phone,
   });
 
   const result = contact.save();
@@ -27,10 +28,12 @@ const addContact = async (body) => {
 };
 
 const updateContact = async (contactId, body) => {
+  const { name, email, phone } = body;
+
   const updatedContact = await Contact.findByIdAndUpdate(contactId, {
-    name: body.name,
-    email: body.email,
-    phone: body.phone,
+    name,
+    email,
+    phone,
   });
   return updatedContact;
 };

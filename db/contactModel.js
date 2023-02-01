@@ -9,12 +9,9 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
-      unique: true,
-      required: [true, "Set email for contact"],
     },
     phone: {
       type: String,
-      required: [true, "Set phone number for contact"],
     },
   },
   { versionKey: false }

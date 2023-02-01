@@ -32,9 +32,8 @@ const addContactController = async (req, res) => {
 
 const updateContactController = async (req, res, next) => {
   const newContact = await updateContact(req.params.contactId, req.body);
-  console.log(newContact);
   newContact
-    ? res.status(200).json(newContact)
+    ? res.status(200).json({ message: "contact updated" })
     : res.status(404).json({ message: "Not found" });
 };
 

@@ -8,6 +8,7 @@ const {
 } = require("../../controllers/contactsController");
 const {
   addContactValidation,
+  updateContactValidatoin,
 } = require("../../middlewares/validationMiddleware.js");
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
@@ -23,7 +24,7 @@ router.post("/", addContactValidation, asyncWrapper(addContactController));
 
 router.put(
   "/:contactId",
-  addContactValidation,
+  updateContactValidatoin,
   asyncWrapper(updateContactController)
 );
 
