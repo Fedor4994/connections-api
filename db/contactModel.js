@@ -13,6 +13,10 @@ const contactSchema = new Schema(
     phone: {
       type: String,
     },
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
   },
   { versionKey: false }
 );

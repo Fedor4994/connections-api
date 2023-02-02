@@ -6,6 +6,7 @@ module.exports = {
       name: Joi.string().required(),
       email: Joi.string(),
       phone: Joi.string(),
+      favorite: Joi.boolean(),
     });
 
     const validatoinResult = schema.validate(req.body);
@@ -23,6 +24,21 @@ module.exports = {
       name: Joi.string(),
       email: Joi.string(),
       phone: Joi.string(),
+    });
+
+    const validatoinResult = schema.validate(req.body);
+    if (validatoinResult.error) {
+      return res.status(400).json({
+        message: `${validatoinResult.error}`,
+      });
+    }
+
+    next();
+  },
+
+  updateStatusContactValidatoin: (req, res, next) => {
+    const schema = Joi.object({
+      favorite: Joi.boolean().required(),
     });
 
     const validatoinResult = schema.validate(req.body);

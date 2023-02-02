@@ -4,6 +4,7 @@ const {
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 } = require("../services/contactsService");
 
 const getContactsController = async (_, res) => {
@@ -19,10 +20,8 @@ const getContactByIdController = async (req, res) => {
 };
 
 const deleteContactController = async (req, res) => {
-  const deletedContact = await removeContact(req.params.contactId);
-  deletedContact
-    ? res.status(200).json({ message: "contact deleted" })
-    : res.status(400).json({ message: "Not found" });
+  await removeContact(req.params.contactId);
+  res.status(200).json({ message: "contact deleted" });
 };
 
 const addContactController = async (req, res) => {
@@ -31,10 +30,21 @@ const addContactController = async (req, res) => {
 };
 
 const updateContactController = async (req, res, next) => {
-  const newContact = await updateContact(req.params.contactId, req.body);
-  newContact
-    ? res.status(200).json({ message: "contact updated" })
-    : res.status(404).json({ message: "Not found" });
+  if (Object.keys(req.body).length === 0) {
+    return res.status(400).json({ message: "missing fields" });
+  }
+
+  await updateContact(req.params.contactId, req.body);
+  res.status(200).json({ message: "contact updated" });
+};
+
+const updateStatusContactController = async (req, res, next) => {
+  if (req.body.favorite === undefined) {
+    return res.status(400).json({ message: "missing field favorite" });
+  }
+
+  await updateStatusContact(req.params.contactId, req.body);
+  res.status(200).json({ message: "contact updated" });
 };
 
 module.exports = {
@@ -43,4 +53,5 @@ module.exports = {
   deleteContactController,
   addContactController,
   updateContactController,
+  updateStatusContactController,
 };

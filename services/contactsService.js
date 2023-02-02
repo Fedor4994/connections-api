@@ -16,11 +16,12 @@ const removeContact = async (contactId) => {
 };
 
 const addContact = async (body) => {
-  const { name, email = "", phone = "" } = body;
+  const { name, email = "", phone = "", favorite = false } = body;
   const contact = new Contact({
     name,
     email,
     phone,
+    favorite,
   });
 
   const result = contact.save();
@@ -38,10 +39,20 @@ const updateContact = async (contactId, body) => {
   return updatedContact;
 };
 
+const updateStatusContact = async (contactId, body) => {
+  const { favorite } = body;
+
+  const updatedContact = await Contact.findByIdAndUpdate(contactId, {
+    favorite,
+  });
+  return updatedContact;
+};
+
 module.exports = {
   listContacts,
   getContactById,
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 };
