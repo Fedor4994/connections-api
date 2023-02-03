@@ -1,50 +1,60 @@
 const { Contact } = require("../db/contactModel");
 
-const listContacts = async () => {
-  const contacts = await Contact.find({});
+const listContacts = async (userId) => {
+  const contacts = await Contact.find({ userId });
   return contacts;
 };
 
-const getContactById = async (contactId) => {
-  const contact = await Contact.findById(contactId);
+const getContactById = async (contactId, userId) => {
+  const contact = await Contact.findOne({ _id: contactId, userId });
   return contact;
 };
 
-const removeContact = async (contactId) => {
-  const deletedContact = await Contact.findByIdAndRemove(contactId);
+const removeContact = async (contactId, userId) => {
+  const deletedContact = await Contact.findOneAndRemove({
+    _id: contactId,
+    userId,
+  });
   return deletedContact;
 };
 
-const addContact = async (body) => {
+const addContact = async (body, userId) => {
   const { name, email = "", phone = "", favorite = false } = body;
   const contact = new Contact({
     name,
     email,
     phone,
     favorite,
+    userId,
   });
 
   const result = contact.save();
   return result;
 };
 
-const updateContact = async (contactId, body) => {
+const updateContact = async (contactId, body, userId) => {
   const { name, email, phone } = body;
 
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, {
-    name,
-    email,
-    phone,
-  });
+  const updatedContact = await Contact.findOneAndUpdate(
+    { _id: contactId, userId },
+    {
+      name,
+      email,
+      phone,
+    }
+  );
   return updatedContact;
 };
 
-const updateStatusContact = async (contactId, body) => {
+const updateStatusContact = async (contactId, body, userId) => {
   const { favorite } = body;
 
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, {
-    favorite,
-  });
+  const updatedContact = await Contact.findOneAndUpdate(
+    { _id: contactId, userId },
+    {
+      favorite,
+    }
+  );
   return updatedContact;
 };
 
