@@ -10,7 +10,15 @@ const register = async ({ email, password }) => {
 
   const newUser = new User({ email, password });
   await newUser.save();
-  return newUser;
+
+  const token = jwt.sign(
+    {
+      _id: newUser._id,
+      email: newUser.email,
+    },
+    process.env.JWT_SECRET
+  );
+  return { newUser, token };
 };
 
 const login = async ({ email, password }) => {
@@ -32,7 +40,7 @@ const login = async ({ email, password }) => {
     process.env.JWT_SECRET
   );
 
-  return token;
+  return { user, token };
 };
 
 module.exports = {

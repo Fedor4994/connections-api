@@ -2,13 +2,14 @@ const { register, login } = require("../services/authService");
 
 const registerController = async (req, res, next) => {
   try {
-    const user = await register(req.body);
-    user
+    const newUser = await register(req.body);
+    newUser
       ? res.status(201).json({
           user: {
-            email: user.email,
-            subscription: user.subscription,
+            email: newUser.newUser.email,
+            subscription: newUser.newUser.subscription,
           },
+          token: newUser.token,
         })
       : res.status(409).json({ message: "Email in use" });
   } catch (err) {
@@ -18,9 +19,15 @@ const registerController = async (req, res, next) => {
 
 const loginController = async (req, res, next) => {
   try {
-    const token = await login(req.body);
-    token
-      ? res.status(200).json({ status: "success", token })
+    const user = await login(req.body);
+    user
+      ? res.status(200).json({
+          user: {
+            email: user.user.email,
+            subscription: user.user.subscription,
+          },
+          token: user.token,
+        })
       : res.status(401).json({
           message: "Email or password is wrong",
         });
