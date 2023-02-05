@@ -4,8 +4,8 @@ module.exports = {
   addContactValidation: (req, res, next) => {
     const schema = Joi.object({
       name: Joi.string().required(),
-      email: Joi.string(),
-      phone: Joi.string(),
+      email: Joi.allow("").string(),
+      phone: Joi.allow("").string(),
       favorite: Joi.boolean(),
     });
 
@@ -21,9 +21,9 @@ module.exports = {
 
   updateContactValidatoin: (req, res, next) => {
     const schema = Joi.object({
-      name: Joi.string(),
-      email: Joi.string(),
-      phone: Joi.string(),
+      name: Joi.allow("").string(),
+      email: Joi.allow("").string(),
+      phone: Joi.allow("").string(),
     });
 
     const validatoinResult = schema.validate(req.body);
