@@ -2,15 +2,16 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../db/userModel");
 
 const authMiddleware = async (req, res, next) => {
-  if (!req.headers.authorization) {
+  const { authorization } = req.headers;
+  if (!authorization) {
     return res.status(401).json({
-      message: "Not authorized",
+      message: "Please, provide a token in request authorization headers",
     });
   }
-  const [, token] = req.headers.authorization.split(" ");
+  const [, token] = authorization.split(" ");
   if (!token) {
     return res.status(401).json({
-      message: "Not authorized",
+      message: "Please, provide a token",
     });
   }
 
@@ -20,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
     const userInDb = await User.findById(user._id);
     if (!userInDb) {
       return res.status(401).json({
-        message: "Not authorized",
+        message: "Invalid token",
       });
     }
 
@@ -28,7 +29,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).json({
-      message: "Not authorized",
+      message: "Invalid token",
     });
   }
 };

@@ -2,19 +2,18 @@ const { User } = require("../db/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const register = async ({ email, password }) => {
+const register = async ({ name, email, password }) => {
   const user = await User.findOne({ email });
   if (user) {
     return false;
   }
 
-  const newUser = new User({ email, password });
+  const newUser = new User({ name, email, password });
   await newUser.save();
 
   const token = jwt.sign(
     {
       _id: newUser._id,
-      email: newUser.email,
     },
     process.env.JWT_SECRET
   );
@@ -35,7 +34,6 @@ const login = async ({ email, password }) => {
   const token = jwt.sign(
     {
       _id: user._id,
-      email: user.email,
     },
     process.env.JWT_SECRET
   );

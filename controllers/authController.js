@@ -6,6 +6,7 @@ const registerController = async (req, res, next) => {
     newUser
       ? res.status(201).json({
           user: {
+            name: newUser.newUser.name,
             email: newUser.newUser.email,
             subscription: newUser.newUser.subscription,
           },
@@ -23,6 +24,7 @@ const loginController = async (req, res, next) => {
     user
       ? res.status(200).json({
           user: {
+            name: user.user.name,
             email: user.user.email,
             subscription: user.user.subscription,
           },
