@@ -1,5 +1,6 @@
 const {
   listContacts,
+  listFavoriteContacts,
   getContactById,
   removeContact,
   addContact,
@@ -8,6 +9,13 @@ const {
 } = require("../services/contactsService");
 
 const getContactsController = async (req, res) => {
+  const { favorite } = req.query;
+  if (favorite) {
+    console.log(favorite);
+    const contacts = await listFavoriteContacts(req.user._id, favorite);
+    return res.json(contacts);
+  }
+
   const contacts = await listContacts(req.user._id);
   res.json(contacts);
 };

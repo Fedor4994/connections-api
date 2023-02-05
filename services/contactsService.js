@@ -5,6 +5,11 @@ const listContacts = async (userId) => {
   return contacts;
 };
 
+const listFavoriteContacts = async (userId, favoriteValue) => {
+  const contacts = await Contact.find({ favorite: favoriteValue, userId });
+  return contacts;
+};
+
 const getContactById = async (contactId, userId) => {
   const contact = await Contact.findOne({ _id: contactId, userId });
   return contact;
@@ -60,6 +65,7 @@ const updateStatusContact = async (contactId, body, userId) => {
 
 module.exports = {
   listContacts,
+  listFavoriteContacts,
   getContactById,
   removeContact,
   addContact,
