@@ -41,7 +41,18 @@ const login = async ({ email, password }) => {
   return { user, token };
 };
 
+const getCurrentUser = async ({ _id }) => {
+  const user = await User.findOne({ _id });
+
+  if (!user) {
+    return false;
+  }
+
+  return user;
+};
+
 module.exports = {
   login,
   register,
+  getCurrentUser,
 };

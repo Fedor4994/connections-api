@@ -1,4 +1,4 @@
-const { register, login } = require("../services/authService");
+const { register, login, getCurrentUser } = require("../services/authService");
 
 const registerController = async (req, res, next) => {
   try {
@@ -38,7 +38,24 @@ const loginController = async (req, res, next) => {
   }
 };
 
+const getCurrentUserController = async (req, res, next) => {
+  const user = await getCurrentUser(req.user);
+
+  user
+    ? res.status(200).json({
+        user: {
+          name: user.name,
+          email: user.email,
+          subscription: user.subscription,
+        },
+      })
+    : res.status(401).json({
+        message: "Not authorized",
+      });
+};
+
 module.exports = {
   registerController,
   loginController,
+  getCurrentUserController,
 };
