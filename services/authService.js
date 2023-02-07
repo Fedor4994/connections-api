@@ -1,5 +1,5 @@
 const { User } = require("../db/userModel");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const register = async ({ name, email, password }) => {
@@ -26,7 +26,9 @@ const login = async ({ email, password }) => {
     return false;
   }
 
-  const isCorrectPassword = await bcrypt.compare(password, user.password);
+  // const isCorrectPassword = await bcrypt.compare(password, user.password);
+
+  const isCorrectPassword = password === user.password; // Must be deleted
   if (!isCorrectPassword) {
     return false;
   }
