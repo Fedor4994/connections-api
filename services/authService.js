@@ -1,6 +1,7 @@
 const { User } = require("../db/userModel");
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const gravatar = require("gravatar");
 
 const register = async ({ name, email, password }) => {
   const user = await User.findOne({ email });
@@ -8,7 +9,8 @@ const register = async ({ name, email, password }) => {
     return false;
   }
 
-  const newUser = new User({ name, email, password });
+  const avatarURL = gravatar.url(email, { protocol: "http", s: "250" });
+  const newUser = new User({ name, email, password, avatarURL });
   await newUser.save();
 
   const token = jwt.sign(

@@ -8,6 +8,7 @@ const registerController = async (req, res, next) => {
           user: {
             name: newUser.newUser.name,
             email: newUser.newUser.email,
+            avatarURL: newUser.newUser.avatarURL,
           },
           token: newUser.token,
         })
@@ -25,6 +26,7 @@ const loginController = async (req, res, next) => {
           user: {
             name: user.user.name,
             email: user.user.email,
+            avatarURL: user.user.avatarURL,
           },
           token: user.token,
         })
@@ -44,6 +46,7 @@ const getCurrentUserController = async (req, res, next) => {
         user: {
           name: user.name,
           email: user.email,
+          avatarURL: user.avatarURL,
         },
       })
     : res.status(401).json({
