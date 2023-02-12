@@ -1,13 +1,18 @@
-const fs = require("fs/promises");
 const { User } = require("../db/userModel");
+const { Storage } = require("@google-cloud/storage");
+const path = require("path");
 
 const uploadController = async (req, res, next) => {
   try {
     if (req.file) {
       const { _id } = req.user;
-      const extention = req.file.filename.split(".")[1];
-      const avatarURL = `public/avatars/${_id}.${extention}`;
-      await fs.rename(`tmp/${req.file.filename}`, avatarURL);
+      const storage = new Storage();
+      const bucket = storage.bucket("connections-api");
+      const tmpPath = path.resolve(`./tmp/${req.file.filename}`);
+      await bucket.upload(tmpPath);
+
+      const [metaData] = await bucket.file(req.file.filename).getMetadata();
+      const avatarURL = metaData.mediaLink;
 
       await User.findOneAndUpdate(
         { _id },

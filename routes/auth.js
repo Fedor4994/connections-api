@@ -17,9 +17,11 @@ const router = express.Router();
 router.post("/register", registerValidation, registerController);
 router.post("/login", loginValidation, loginController);
 router.get("/current", authMiddleware, getCurrentUserController);
+
 router.patch(
   "/avatars",
-  [authMiddleware, uploadMiddleware.single("avatar")],
+  authMiddleware,
+  uploadMiddleware.single("avatar"),
   uploadController
 );
 
