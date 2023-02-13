@@ -15,7 +15,7 @@ const {
 const { authMiddleware } = require("../middlewares/authMiddleware");
 const { asyncWrapper } = require("../helpers/apiHelpers");
 const { uploadMiddleware } = require("../middlewares/filesMiddleware");
-const { contactAvatarController } = require("../controllers/filesController");
+const { uploadController } = require("../controllers/filesController");
 
 const router = express.Router();
 
@@ -40,7 +40,7 @@ router.patch(
   "/:contactId/avatars",
   authMiddleware,
   uploadMiddleware.single("avatar"),
-  contactAvatarController
+  uploadController
 );
 
 module.exports = router;
