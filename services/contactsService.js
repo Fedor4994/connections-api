@@ -1,5 +1,6 @@
 const { Contact } = require("../db/contactModel");
-const gravatar = require("gravatar");
+const { AvatarGenerator } = require("random-avatar-generator");
+const generator = new AvatarGenerator();
 
 const listContacts = async (userId) => {
   const contacts = await Contact.find({ userId });
@@ -30,7 +31,7 @@ const addContact = async (body, userId) => {
     email = "",
     phone = "",
     favorite = false,
-    avatarURL = gravatar.url(email, { protocol: "http", s: "250" }),
+    avatarURL = generator.generateRandomAvatar(),
   } = body;
   const contact = new Contact({
     name,

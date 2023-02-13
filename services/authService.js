@@ -1,7 +1,8 @@
 const { User } = require("../db/userModel");
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const gravatar = require("gravatar");
+const { AvatarGenerator } = require("random-avatar-generator");
+const generator = new AvatarGenerator();
 
 const register = async ({ name, email, password }) => {
   const user = await User.findOne({ email });
@@ -9,7 +10,7 @@ const register = async ({ name, email, password }) => {
     return false;
   }
 
-  const avatarURL = gravatar.url(email, { protocol: "http", s: "250" });
+  const avatarURL = generator.generateRandomAvatar();
   const newUser = new User({ name, email, password, avatarURL });
   await newUser.save();
 
