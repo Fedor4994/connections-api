@@ -14,6 +14,8 @@ const {
 } = require("../middlewares/validationMiddleware.js");
 const { authMiddleware } = require("../middlewares/authMiddleware");
 const { asyncWrapper } = require("../helpers/apiHelpers");
+const { uploadMiddleware } = require("../middlewares/filesMiddleware");
+const { contactAvatarController } = require("../controllers/filesController");
 
 const router = express.Router();
 
@@ -32,6 +34,13 @@ router.patch(
   "/:contactId/favorite",
   updateStatusContactValidatoin,
   asyncWrapper(updateStatusContactController)
+);
+
+router.patch(
+  "/:contactId/avatars",
+  authMiddleware,
+  uploadMiddleware.single("avatar"),
+  contactAvatarController
 );
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const { Contact } = require("../db/contactModel");
+const gravatar = require("gravatar");
 
 const listContacts = async (userId) => {
   const contacts = await Contact.find({ userId });
@@ -24,12 +25,19 @@ const removeContact = async (contactId, userId) => {
 };
 
 const addContact = async (body, userId) => {
-  const { name, email = "", phone = "", favorite = false } = body;
+  const {
+    name,
+    email = "",
+    phone = "",
+    favorite = false,
+    avatarURL = gravatar.url(email, { protocol: "http", s: "250" }),
+  } = body;
   const contact = new Contact({
     name,
     email,
     phone,
     favorite,
+    avatarURL,
     userId,
   });
 

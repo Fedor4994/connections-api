@@ -17,6 +17,9 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    avatarURL: {
+      type: String,
+    },
     userId: {
       type: mongoose.SchemaTypes.ObjectId,
     },

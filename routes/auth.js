@@ -9,7 +9,7 @@ const {
   loginValidation,
 } = require("../middlewares/validationMiddleware");
 const { authMiddleware } = require("../middlewares/authMiddleware");
-const { uploadController } = require("../controllers/filesController");
+const { userAvatarController } = require("../controllers/filesController");
 const { uploadMiddleware } = require("../middlewares/filesMiddleware");
 
 const router = express.Router();
@@ -22,7 +22,7 @@ router.patch(
   "/avatars",
   authMiddleware,
   uploadMiddleware.single("avatar"),
-  uploadController
+  userAvatarController
 );
 
 module.exports = router;

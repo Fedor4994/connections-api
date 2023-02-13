@@ -6,7 +6,11 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const [, extension] = file.originalname.split(".");
-    cb(null, `${req.user._id}.${extension}`);
+    if (req.params.contactId) {
+      cb(null, `${req.params.contactId}.${extension}`);
+    } else {
+      cb(null, `${req.user._id}.${extension}`);
+    }
   },
 });
 
